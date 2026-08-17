@@ -1,0 +1,11 @@
+---
+description: Regras para Design System, Penpot e front-end
+globs: ["apps/**/*.tsx", "apps/**/*.ts", "apps/**/*.css", "packages/ui/**/*", "packages/design-tokens/**/*", "docs/03-design/**/*"]
+alwaysApply: false
+---
+- Reutilize tokens e componentes antes de criar novos.
+- Evite valores visuais hardcoded quando houver token semântico.
+- Penpot é a fonte de verdade visual.
+- Antes de escrever no Penpot via MCP: ler arquivo, página, componentes e tokens; propor plano; depois alterar em lote pequeno.
+- Manter temas Institucional e Bolerata no mesmo Design System.
+- Tratar mobile como experiência própria, não apenas desktop reduzido.

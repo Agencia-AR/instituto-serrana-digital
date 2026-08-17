@@ -1,0 +1,10 @@
+---
+description: Fontes da verdade e governança documental
+alwaysApply: true
+---
+- Produto, escopo e regras: `docs/00-master/MASTER.md`.
+- Decisões resumidas: `docs/06-decisions/DECISIONS.md`.
+- Visual e protótipos: Penpot.
+- Implementação: Git.
+- Não altere uma regra de produto silenciosamente a partir de uma decisão de design ou código.
+- Quando encontrar conflito, registre o conflito e peça decisão.

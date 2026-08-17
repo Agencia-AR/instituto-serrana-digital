@@ -1,0 +1,9 @@
+---
+description: Segurança, segredos e operações sensíveis
+alwaysApply: true
+---
+- Nunca coloque tokens, senhas, chaves ou URLs contendo segredo em commits, documentação pública, screenshots ou logs.
+- Use variáveis de ambiente para credenciais.
+- Não executar alteração destrutiva em banco, produção, Penpot ou Git sem confirmação.
+- Preferir credenciais com menor privilégio possível.
+- Dados pessoais devem seguir minimização, controle de acesso e auditoria.

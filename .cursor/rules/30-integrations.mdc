@@ -1,0 +1,12 @@
+---
+description: Regras para integrações Sympla, WhatsApp, Instagram e serviços externos
+globs: ["services/integrations/**/*", "docs/05-integrations/**/*", "apps/**/api/**/*"]
+alwaysApply: false
+---
+- Todas as integrações devem usar adapters/ports para evitar acoplamento ao fornecedor.
+- WhatsApp: Meta Cloud API é baseline de produção.
+- Evolution API pode operar com Cloud API oficial ou modo WhatsApp Web/Baileys; documentar qual modo está ativo.
+- MegaAPI não oficial só pode ser usada após registro do risco.
+- Normalizar webhooks antes de alimentar o domínio.
+- Sympla é fonte oficial de venda/ingresso na fase inicial.
+- Idempotência, retry, logs e auditoria são obrigatórios.

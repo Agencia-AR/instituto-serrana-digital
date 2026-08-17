@@ -1,0 +1,9 @@
+---
+description: Fluxo Git seguro do projeto
+alwaysApply: true
+---
+- Antes de modificar, inspecione `git status`.
+- Não use `git reset --hard`, `git clean -fd`, force push ou rebase destrutivo sem solicitação explícita.
+- Faça commits pequenos por objetivo.
+- Não misture documentação, design system e implementação não relacionada no mesmo commit quando puder separar.
+- Não versionar segredos.

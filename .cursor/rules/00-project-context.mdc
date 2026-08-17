@@ -1,0 +1,10 @@
+---
+description: Contexto permanente do projeto Instituto Serrana Digital
+alwaysApply: true
+---
+- Projeto: Instituto Serrana Digital / Plataforma Instituto Serrana & Bolerata.
+- Leia `docs/00-master/MASTER.md` antes de decisões de produto, arquitetura ou design.
+- Diferencie explicitamente: CONFIRMADO, PROPOSTA e PENDENTE.
+- O protótipo pré-reunião pode usar hipóteses, desde que sejam substituíveis e documentadas.
+- A experiência pública principal começa na base da escadaria e sobe até a Igreja de Santa Rita.
+- O produto possui Portal Público e Plataforma Administrativa.
