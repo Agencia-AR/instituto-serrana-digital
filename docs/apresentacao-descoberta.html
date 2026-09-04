@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<!--
+  Instituto Serrana Digital — Material de apoio da Reunião de Descoberta
+  Formato: "material de estruturação em HTML navegável" (segundo cérebro).
+  Fonte de conteúdo: docs/discovery/03-roteiro-reuniao-descoberta.md + docs/product/01-prd.md
+                     + docs/design/01-penpot-brief.md
+  Sem build. Abre no navegador ou publica como pasta estática.
+
+  GOVERNANÇA: tudo aqui é PROPOSTA / protótipo conceitual. Nada é fato confirmado
+  do Instituto. Textos institucionais são rascunho de redação.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instituto Serrana Digital — Reunião de Descoberta</title>
+<meta name="description" content="Material de apoio: roteiro da reunião, design system e telas-conceito (institucional + Bolerata).">
+<style>
+  :root{
+    --bg:#faf7f2; --surface:#ffffff; --surface-2:#f2ece2; --border:#e4daca;
+    --text:#2b2622; --muted:#7c7266; --accent:#a35d42; --accent-soft:#f0ddd3;
+    --ok:#486a4a; --warn:#a47d38; --info:#315b70;
+    --radius:14px; --sidebar:288px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    --serif:"Cormorant Garamond","Marcellus",Georgia,serif;
+    --mono:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  :root[data-theme="dark"]{
+    --bg:#1b1815; --surface:#241f1b; --surface-2:#2d2723; --border:#3b342d;
+    --text:#ece4d9; --muted:#a89d90; --accent:#cf8163; --accent-soft:#3a2a21;
+    --info:#7ba7bd;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#1b1815; --surface:#241f1b; --surface-2:#2d2723; --border:#3b342d;
+      --text:#ece4d9; --muted:#a89d90; --accent:#cf8163; --accent-soft:#3a2a21;
+      --info:#7ba7bd;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.62;font-size:15px}
+  a{color:var(--accent)}
+  code{font-family:var(--mono);font-size:.86em;background:var(--surface-2);padding:.1em .35em;border-radius:5px}
+
+  .layout{display:flex;min-height:100vh}
+  .sidebar{width:var(--sidebar);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 0}
+  .brand{padding:0 22px 6px;font-family:var(--serif);font-weight:700;font-size:20px}
+  .brand small{display:block;font-family:var(--font);font-weight:600;letter-spacing:.06em;font-size:10px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .nav-group{padding:16px 22px 4px;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+  .nav-item{display:flex;gap:10px;align-items:center;padding:8px 22px;cursor:pointer;font-size:13.5px;color:var(--text);border-left:3px solid transparent}
+  .nav-item:hover{background:var(--surface-2)}
+  .nav-item.active{background:var(--accent-soft);border-left-color:var(--accent);font-weight:600}
+  .nav-item .ico{width:18px;text-align:center}
+
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .topbar{display:none;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:5}
+  .topbar button{border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .content{max-width:940px;width:100%;margin:0 auto;padding:40px 32px 90px}
+  .footer-nav{max-width:940px;width:100%;margin:0 auto;padding:16px 32px 48px;display:flex;justify-content:space-between;gap:12px}
+  .footer-nav button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:10px;padding:10px 18px;cursor:pointer;font-size:14px}
+  .footer-nav button:disabled{opacity:.35;cursor:default}
+
+  .bloco{display:none;animation:fade .25s ease}
+  .bloco.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:700}
+  h1{font-family:var(--serif);font-size:34px;line-height:1.15;margin:6px 0 6px;font-weight:700}
+  h2{font-size:20px;margin:34px 0 12px}
+  h3{font-size:15.5px;margin:22px 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .lead{color:var(--muted);font-size:17px;margin-bottom:8px}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0 10px 22px}
+  li{margin:5px 0}
+
+  .hero{text-align:center;padding:52px 22px;background:
+     radial-gradient(120% 120% at 50% 0%, var(--accent-soft), transparent 60%), var(--surface);
+     border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px}
+  .hero .badge{display:inline-block;background:var(--surface);border:1px solid var(--border);color:var(--accent);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .hero h1{font-size:40px;margin:16px 0 10px}
+
+  .tbl-wrap{overflow-x:auto;margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th,td{border:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:var(--surface-2);font-weight:600}
+
+  .callout{border:1px solid var(--border);border-left:4px solid var(--info);background:var(--surface);border-radius:10px;padding:14px 16px;margin:16px 0}
+  .callout.dica{border-left-color:var(--ok)}
+  .callout.alerta{border-left-color:var(--warn)}
+  .callout.alvo{border-left-color:var(--accent)}
+  .callout .c-title{font-weight:700;margin-bottom:4px}
+
+  .prompt{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;margin:14px 0;overflow:hidden}
+  .prompt .p-head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .prompt pre{margin:0;padding:14px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;line-height:1.55}
+  .copy-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer}
+  .copy-btn.copied{background:var(--ok);color:#fff;border-color:var(--ok)}
+
+  .checklist{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:16px 0}
+  .checklist .cl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .checklist .cl-count{font-size:13px;color:var(--muted)}
+  .checklist label{display:flex;gap:10px;align-items:flex-start;padding:5px 0;cursor:pointer;font-size:13.5px}
+  .checklist input{margin-top:4px}
+  .reset-btn{border:none;background:none;color:var(--accent);font-size:12px;cursor:pointer;text-decoration:underline}
+
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:middle}
+  .pill.conf{background:#486a4a22;color:var(--ok);border:1px solid #486a4a55}
+  .pill.prop{background:#31607022;color:var(--info);border:1px solid #31607055}
+  .pill.pend{background:#a47d3822;color:var(--warn);border:1px solid #a47d3855}
+
+  /* ---------- swatches do design system ---------- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .sw{border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:12px}
+  .sw .chip{height:70px}
+  .sw .meta{padding:7px 9px;background:var(--surface)}
+  .sw .meta b{display:block;font-size:12.5px}
+  .sw .meta span{color:var(--muted);font-family:var(--mono);font-size:11px}
+  .type-demo{border:1px solid var(--border);border-radius:12px;padding:18px 20px;background:var(--surface);margin:12px 0}
+  .type-demo .t-serif{font-family:var(--serif);font-size:30px;line-height:1.15}
+  .type-demo .t-body{font-family:var(--font);font-size:15px;color:var(--muted)}
+
+  /* ---------- moldura de navegador para os mockups ---------- */
+  .device{border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:16px 0;box-shadow:0 20px 44px -24px rgba(0,0,0,.45)}
+  .device .bar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+  .device .bar i{width:9px;height:9px;border-radius:50%;background:var(--border);display:block}
+  .device .bar .url{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+  .device .screen{overflow:hidden}
+  .cap{font-size:12.5px;color:var(--muted);margin:-6px 0 18px;text-align:center}
+
+  /* ===== TEMA INSTITUCIONAL (mockups) ===== */
+  .inst{--i-ivory:#f5f0e7;--i-blue:#315b70;--i-terra:#a35d42;--i-green:#486a4a;--i-graphite:#202321;--i-gold:#a47d38;
+        background:var(--i-ivory);color:var(--i-graphite);font-family:var(--font)}
+  .inst .nav{display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:1px solid #0002}
+  .inst .nav .logo{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--i-blue)}
+  .inst .nav a{margin-left:auto;font-size:12px;color:var(--i-graphite)}
+  .inst .nav a + a{margin-left:16px}
+  .inst .nav .cta{background:var(--i-terra);color:#fff;padding:6px 12px;border-radius:8px}
+  .inst .hero-sr{position:relative;min-height:340px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:26px;color:#fff;background:
+      linear-gradient(180deg,#20232100 0%,#202321cc 100%),
+      linear-gradient(0deg,#6d8a99,#cdb89a 70%,#e9ddc7)}
+  .inst .hero-sr .church{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:90px;height:120px;
+    background:linear-gradient(#f2ede2,#d8cbb2);clip-path:polygon(50% 0,68% 22%,68% 100%,32% 100%,32% 22%);opacity:.92}
+  .inst .hero-sr .church::after{content:"✚";position:absolute;top:-16px;left:50%;transform:translateX(-50%);color:#f2ede2;font-size:13px}
+  .inst .hero-sr .stairs{position:absolute;left:0;right:0;bottom:0;height:70%;background:
+     repeating-linear-gradient(180deg,#0000 0 16px,#0000000f 16px 18px);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+  .inst .hero-sr .k{position:relative;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.85}
+  .inst .hero-sr h3{position:relative;font-family:var(--serif);font-size:30px;color:#fff;margin:6px 0;text-transform:none;letter-spacing:0}
+  .inst .hero-sr p{position:relative;font-size:13px;max-width:60%;opacity:.9;margin:0}
+  .inst .scrollrail{display:flex;gap:8px;padding:12px 22px;background:var(--i-graphite);color:#fff;font-size:11px;overflow-x:auto}
+  .inst .scrollrail span{white-space:nowrap;opacity:.55}
+  .inst .scrollrail span.on{opacity:1;color:#e9ddc7;font-weight:600}
+  .inst .sec{padding:22px}
+  .inst .sec h4{font-family:var(--serif);font-size:20px;color:var(--i-blue);margin:0 0 6px}
+  .inst .sec .muted{font-size:12.5px;color:#5c574f}
+  .inst .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .inst .card{background:#fff;border:1px solid #0001;border-radius:10px;padding:12px;font-size:12px}
+  .inst .card b{display:block;color:var(--i-terra);margin-bottom:3px;font-size:12.5px}
+  .inst .draft{display:inline-block;font-size:10px;background:#a47d3822;color:#7a5d24;border:1px dashed #a47d3877;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle;letter-spacing:.02em}
+
+  /* ===== TEMA BOLERATA (mockups) ===== */
+  .bol{--b-black:#080808;--b-graphite:#171717;--b-gold:#a37c35;--b-lgold:#c6a35a;--b-ivory:#f4f0e7;
+       background:var(--b-black);color:var(--b-ivory);font-family:var(--font)}
+  .bol .nav{display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid #ffffff14}
+  .bol .nav .logo{font-family:var(--serif);letter-spacing:.14em;text-transform:uppercase;font-size:15px;color:var(--b-lgold)}
+  .bol .nav a{margin-left:auto;font-size:12px;color:#cdc4b3}
+  .bol .nav .cta{margin-left:16px;border:1px solid var(--b-gold);color:var(--b-lgold);padding:6px 14px;border-radius:999px;font-size:12px}
+  .bol .hero-b{padding:34px 24px;background:
+     radial-gradient(90% 120% at 80% 0%, #a37c3533, transparent 55%),
+     linear-gradient(180deg,#0d0d0d,#080808)}
+  .bol .hero-b .k{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--b-gold)}
+  .bol .hero-b h3{font-family:var(--serif);font-size:34px;color:var(--b-ivory);margin:8px 0;text-transform:none;letter-spacing:.01em}
+  .bol .hero-b .meta{font-size:12.5px;color:#cdc4b3;display:flex;gap:16px;margin:10px 0 16px;flex-wrap:wrap}
+  .bol .hero-b .btn{display:inline-block;background:linear-gradient(135deg,#a37c35,#c6a35a);color:#1a1406;font-weight:700;font-size:12.5px;padding:9px 18px;border-radius:999px}
+  .bol .season{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:20px 24px}
+  .bol .ed{border:1px solid #ffffff1c;border-radius:12px;overflow:hidden;background:#111}
+  .bol .ed .thumb{height:64px;background:linear-gradient(135deg,#2a2118,#0c0c0c)}
+  .bol .ed .body{padding:10px;font-size:11.5px}
+  .bol .ed .body b{display:block;font-family:var(--serif);font-size:14px;color:var(--b-ivory)}
+  .bol .ed .tag{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border-radius:999px;border:1px solid #ffffff33;color:#cdc4b3}
+  .bol .ed .tag.open{color:#0d0d0d;background:var(--b-lgold);border-color:var(--b-lgold)}
+  .bol .ed .tag.sold{color:#c98b8b;border-color:#c98b8b55}
+
+  /* ===== mapas de mesa ===== */
+  .maps{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.maps{grid-template-columns:1fr}}
+  .mapbox{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+  .mapbox .h{padding:8px 12px;font-size:12px;font-weight:700;background:var(--surface-2);border-bottom:1px solid var(--border)}
+  .mapa-a{height:210px;position:relative;background:
+     linear-gradient(180deg,#e7ddc7,#d8c9ab);}
+  .mapa-a .street{position:absolute;left:8%;right:8%;top:44%;height:22%;background:#cbb890;border-top:2px dashed #00000022;border-bottom:2px dashed #00000022}
+  .mapa-a .house{position:absolute;width:34px;height:26px;background:#b98c62;border:1px solid #00000022;border-radius:2px}
+  .mapa-a .tree{position:absolute;width:14px;height:14px;border-radius:50%;background:#6f8c5a}
+  .mapa-a .stage{position:absolute;left:46%;top:12%;width:44px;height:14px;background:#8a5a3c;border-radius:3px;color:#fff;font-size:8px;text-align:center;line-height:14px}
+  .mapa-a .tbl{position:absolute;width:12px;height:12px;border-radius:50%;background:#315b70}
+  .mapa-b{height:210px;position:relative;background:var(--surface);padding:12px}
+  .mapa-b .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  .mapa-b .m{aspect-ratio:1;border-radius:6px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#0006;border:1px solid #0002}
+  .m.disp{background:#e8efe8;border-color:#486a4a55}
+  .m.pend{background:#f6ecd6;border-color:#a47d3866}
+  .m.vend{background:#a35d42;color:#fff}
+  .m.cort{background:#315b70;color:#fff}
+  .m.bloq{background:#dcdcdc;color:#0004;background-image:repeating-linear-gradient(45deg,#0000 0 4px,#0001 4px 8px)}
+  .m.chk{background:#486a4a;color:#fff}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:middle}
+
+  /* ===== dashboard / crm / financeiro ===== */
+  .app{--a-bg:#f4f3f0;--a-ink:#242220;--a-blue:#315b70;background:var(--a-bg);color:var(--a-ink);display:flex;font-size:12px}
+  .app .side{width:120px;background:#202321;color:#cfc9bf;padding:12px 0;flex-shrink:0;font-size:11px}
+  .app .side b{display:block;padding:0 14px 8px;font-family:var(--serif);font-size:13px;color:#e9ddc7}
+  .app .side a{display:block;padding:6px 14px;color:#cfc9bf}
+  .app .side a.on{background:#ffffff12;color:#fff;border-left:2px solid var(--i-terra,#a35d42)}
+  .app .body{flex:1;padding:14px;min-width:0}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .kpi{background:#fff;border:1px solid #0001;border-radius:9px;padding:9px 10px}
+  .kpi .lbl{font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:#8a8378}
+  .kpi .val{font-size:16px;font-weight:700;margin-top:2px}
+  .kpi .val.g{color:#486a4a}.kpi .val.r{color:#a3423a}
+  .panelrow{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin-top:8px}
+  .panel{background:#fff;border:1px solid #0001;border-radius:9px;padding:10px}
+  .panel h5{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#8a8378;margin-bottom:6px}
+  .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #0000000d}
+  .bar{height:8px;border-radius:999px;background:#e7e2d8;overflow:hidden;margin:6px 0}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#315b70,#5a8298)}
+  .alert{color:#a3423a}
+  .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .col{background:#efece5;border:1px solid #0001;border-radius:9px;padding:8px}
+  .col h6{font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:#8a8378;margin-bottom:6px}
+  .kc{background:#fff;border:1px solid #0001;border-radius:7px;padding:7px;margin-bottom:6px;font-size:11px}
+  .kc small{color:#8a8378}
+  .tag2{display:inline-block;font-size:9px;padding:1px 6px;border-radius:999px;background:#315b7018;color:#315b70;margin-right:3px}
+
+  .theme-toggle{position:fixed;bottom:16px;right:16px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;width:40px;height:40px;cursor:pointer;font-size:16px;z-index:20}
+
+  @media (max-width:900px){
+    .sidebar{display:none} .topbar{display:flex}
+    .content{padding:24px 16px 70px}
+    h1{font-size:26px}
+    .inst .cards,.bol .season,.kpis{grid-template-columns:1fr 1fr}
+    .kanban{grid-template-columns:1fr 1fr}
+    .panelrow{grid-template-columns:1fr}
+    .inst .hero-sr p{max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">Instituto Serrana Digital<small>Reunião de Descoberta · v1.0</small></div>
+    <div id="navList"></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button onclick="toggleMenu()">☰ Blocos</button>
+      <strong id="topTitle" style="font-size:14px"></strong>
+      <span id="topProgress" style="margin-left:auto;font-size:12px;color:var(--muted)"></span>
+    </div>
+
+    <div class="content" id="content">
+
+      <!-- ============ INÍCIO ============ -->
+      <section class="bloco" data-bloco="inicio">
+        <div class="hero">
+          <span class="badge">Material de apoio · Portal + Plataforma</span>
+          <h1>Da base da escadaria à gestão do Instituto</h1>
+          <p class="lead">Um lugar digital só do Instituto Serrana: encanta por fora, organiza por dentro. A Bolerata é o primeiro grande caso de uso.</p>
+        </div>
+        <h2>Para que serve este material</h2>
+        <p>Apoio da <b>reunião de descoberta</b> com o Instituto Serrana. Abra em paralelo ao protótipo Penpot durante a reunião e deixe com o Instituto ao final. Reúne:</p>
+        <ul>
+          <li>o <b>roteiro</b> da reunião (60 min e 15 min);</li>
+          <li>o <b>design system</b> proposto — tema institucional e tema Bolerata;</li>
+          <li><b>telas-conceito</b> de cada área (institucional, Bolerata, mapas, dashboard, CRM, financeiro);</li>
+          <li>as <b>perguntas de descoberta</b> e as <b>decisões</b> que precisam sair da reunião;</li>
+          <li>o <b>checklist do protótipo</b> antes da reunião (P0/P1/P2).</li>
+        </ul>
+        <div class="callout alerta">
+          <div class="c-title">⚠️ Natureza da informação</div>
+          Tudo aqui é <span class="pill prop">Proposta</span> ou <span class="pill pend">Pendente</span>. Nenhum texto, cor, número ou fluxo está confirmado pelo Instituto. Os textos institucionais são <b>rascunho de redação</b>. O objetivo da reunião é validar e corrigir.
+        </div>
+        <div class="callout dica">
+          <div class="c-title">💡 Como navegar</div>
+          Cada item da barra lateral é um bloco. Use <b>← Anterior / Próximo →</b> no rodapé, ou pule direto. Documento-fonte: <code>docs/discovery/03-roteiro-reuniao-descoberta.md</code>.
+        </div>
+      </section>
+
+      <!-- ============ AGENDA ============ -->
+      <section class="bloco" data-bloco="agenda">
+        <div class="kicker">Condução</div>
+        <h1>Roteiro da reunião</h1>
+        <p class="lead">Público primeiro (encanta e alinha a narrativa), administrativo depois (mostra o valor operacional), descoberta guiada ao final.</p>
+
+        <h2>Versão completa — 60 minutos</h2>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Min</th><th>Bloco</th><th>Objetivo</th><th>Decisão esperada</th></tr></thead>
+          <tbody>
+            <tr><td>0–5</td><td>Abertura + dois ambientes</td><td>Enquadrar; explicar Portal Público × Plataforma Administrativa</td><td>Confirmar os 2 ambientes</td></tr>
+            <tr><td>5–12</td><td>Home Santa Rita</td><td>Encantar; alinhar a narrativa de entrada</td><td>Conceito aprovado; dono da mídia</td></tr>
+            <tr><td>12–17</td><td>Área institucional</td><td>História, missão, transparência, CMS</td><td>Responsável por conteúdo; docs públicos</td></tr>
+            <tr><td>17–20</td><td>Projetos e eventos</td><td>Base reaproveitável além da Bolerata</td><td>2–3 projetos do MVP</td></tr>
+            <tr><td>20–26</td><td>Bolerata — página, temporada, edição</td><td>Identidade própria + jornada de compra</td><td>Tema separado; Sympla = fonte de venda</td></tr>
+            <tr><td>26–33</td><td>Dois mapas de mesa</td><td>Entender como a mesa é vendida hoje</td><td>Modelo real de venda; papel do Mapa B</td></tr>
+            <tr><td>33–40</td><td>Dashboard + eventos (admin)</td><td>"O que está acontecendo e o que precisa de atenção"</td><td>6–8 indicadores; perfis de acesso</td></tr>
+            <tr><td>40–45</td><td>CRM + atendimento</td><td>Parar de perder contato e histórico</td><td>Canais do MVP; política de IA</td></tr>
+            <tr><td>45–49</td><td>Financeiro + projetos</td><td>Visão gerencial por centro de custo</td><td>Financeiro no MVP? Profundidade</td></tr>
+            <tr><td>49–52</td><td>Integrações</td><td>Enquadrar sem prometer</td><td>WhatsApp = Meta Cloud API</td></tr>
+            <tr><td>52–58</td><td>Descoberta guiada</td><td>Fechar as perguntas críticas restantes</td><td>Máximo de Pendente → Decisão</td></tr>
+            <tr><td>58–60</td><td>Fecho</td><td>Combinar o próximo passo</td><td>Responsável, prazos, data do gate</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout alerta">
+          <div class="c-title">⚠️ Se estourar o tempo</div>
+          Cortar <b>Projetos/Eventos</b> (17–20) e <b>Financeiro</b> (45–49). Nunca cortar <b>mapas de mesa</b> (26–33) nem <b>descoberta guiada</b> (52–58).
+        </div>
+
+        <h2>Versão curta — 15 minutos</h2>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Min</th><th>Bloco</th><th>Foco</th></tr></thead>
+          <tbody>
+            <tr><td>0–2</td><td>Abertura</td><td>A frase da visão + "isto é proposta, quero a reação de vocês"</td></tr>
+            <tr><td>2–5</td><td>Home Santa Rita</td><td>Scroll do pé da escadaria à igreja — a narrativa está certa?</td></tr>
+            <tr><td>5–9</td><td>Bolerata + mapas</td><td>Edição → CTA Sympla → dois mapas. Como a mesa é vendida hoje?</td></tr>
+            <tr><td>9–12</td><td>Admin em 1 tela</td><td>Dashboard: ocupação, receita, pendências, falhas</td></tr>
+            <tr><td>12–15</td><td>Fecho</td><td>3 perguntas obrigatórias + acessos + próximo passo</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout alvo">
+          <div class="c-title">🎯 As 3 perguntas que não podem faltar</div>
+          <ol style="margin-top:6px">
+            <li>Como cada <b>mesa da Bolerata</b> é vendida hoje (item único na Sympla ou por cadeira)?</li>
+            <li>Quem <b>responde WhatsApp/Instagram</b> hoje e onde ficam esses contatos?</li>
+            <li>Quem <b>aprova o conteúdo institucional</b> e quais documentos podem ser públicos?</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============ ABERTURA / STORYTELLING ============ -->
+      <section class="bloco" data-bloco="abertura">
+        <div class="kicker">Fala sugerida</div>
+        <h1>Storytelling de abertura</h1>
+        <p class="lead">2–3 minutos. Enquadra a reunião como proposta a validar, não entrega a aprovar.</p>
+        <div class="prompt">
+          <div class="p-head"><span>Roteiro de abertura</span><button class="copy-btn">Copiar</button></div>
+          <pre>O Instituto Serrana existe desde 2001 cuidando da memória, da cultura e do
+patrimônio do Serro. Hoje essa história está espalhada — um pouco no site, um
+pouco no Instagram, um pouco na Sympla, um pouco em planilhas e no WhatsApp.
+
+A ideia da plataforma é simples de dizer e grande de fazer: dar ao Instituto um
+lugar digital só dele, que faça duas coisas.
+
+A primeira, para quem vê de fora: contar essa história de um jeito que emociona.
+A gente parte da base da escadaria da Igreja de Santa Rita e sobe, degrau por
+degrau, até a igreja — e nessa subida aparece o que o Instituto faz: memória,
+cultura, patrimônio, comunidade.
+
+A segunda, para quem trabalha por dentro: parar de perder informação. Toda venda
+da Bolerata, todo contato, toda despesa, todo documento num lugar só.
+
+O que vou mostrar agora é uma proposta visual — um protótipo. Nada está fechado.
+O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que falta.</pre>
+        </div>
+        <div class="callout alerta">
+          <div class="c-title">⚠️ Não dizer</div>
+          "está pronto" · "vai funcionar assim" · "a Sympla permite isso" (sem confirmação) · "a missão de vocês é X" (é proposta de redação).
+        </div>
+      </section>
+
+      <!-- ============ DESIGN SYSTEM ============ -->
+      <section class="bloco" data-bloco="design">
+        <div class="kicker">Fundação visual</div>
+        <h1>Design System</h1>
+        <p class="lead">Dois temas que compartilham a mesma estrutura (tokens, componentes, estados), com linguagem visual diferente. Fonte: <code>docs/design/01-penpot-brief.md</code>. <span class="pill prop">Proposta</span> — a paleta final é validada no Penpot e no navegador.</p>
+
+        <h2>Tema institucional — "pedra, cal e jardim"</h2>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#f5f0e7"></div><div class="meta"><b>ivory</b><span>#F5F0E7</span></div></div>
+          <div class="sw"><div class="chip" style="background:#315b70"></div><div class="meta"><b>colonial-blue</b><span>#315B70</span></div></div>
+          <div class="sw"><div class="chip" style="background:#a35d42"></div><div class="meta"><b>terracotta</b><span>#A35D42</span></div></div>
+          <div class="sw"><div class="chip" style="background:#486a4a"></div><div class="meta"><b>garden-green</b><span>#486A4A</span></div></div>
+          <div class="sw"><div class="chip" style="background:#202321"></div><div class="meta"><b>graphite</b><span>#202321</span></div></div>
+          <div class="sw"><div class="chip" style="background:#a47d38"></div><div class="meta"><b>antique-gold</b><span>#A47D38</span></div></div>
+        </div>
+
+        <h2>Tema Bolerata — "noite, ouro e marfim"</h2>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#080808"></div><div class="meta"><b>black</b><span>#080808</span></div></div>
+          <div class="sw"><div class="chip" style="background:#171717"></div><div class="meta"><b>graphite</b><span>#171717</span></div></div>
+          <div class="sw"><div class="chip" style="background:#a37c35"></div><div class="meta"><b>gold</b><span>#A37C35</span></div></div>
+          <div class="sw"><div class="chip" style="background:#c6a35a"></div><div class="meta"><b>light-gold</b><span>#C6A35A</span></div></div>
+          <div class="sw"><div class="chip" style="background:#f4f0e7"></div><div class="meta"><b>ivory</b><span>#F4F0E7</span></div></div>
+        </div>
+
+        <h2>Tipografia</h2>
+        <div class="type-demo">
+          <div class="t-serif">Cada degrau guarda uma história</div>
+          <div class="t-body">Títulos culturais em <b>Cormorant Garamond</b> ou <b>Marcellus</b>. Interface e textos longos em <b>Inter</b> ou <b>Manrope</b>. <span class="pill pend">Pendente</span> escolha final.</div>
+        </div>
+
+        <h2>Tokens (camadas)</h2>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Camada</th><th>Exemplos</th><th>Papel</th></tr></thead>
+          <tbody>
+            <tr><td><code>primitive.*</code></td><td>cores cruas, escala tipográfica</td><td>valores brutos, nunca usados direto na tela</td></tr>
+            <tr><td><code>semantic.*</code></td><td><code>bg.page</code>, <code>text.primary</code>, <code>action.primary</code>, <code>status.success/warning/danger</code></td><td>o que a tela realmente consome</td></tr>
+            <tr><td><code>component.*</code></td><td><code>button.bg</code>, <code>card.border</code></td><td>ajuste fino por componente</td></tr>
+            <tr><td><code>motion.*</code> / <code>breakpoint.*</code></td><td>durações, easings, larguras</td><td>animação e responsividade</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2>Estados de mesa (compartilhados pelos dois mapas)</h2>
+        <div class="legend" style="font-size:12px">
+          <span><i style="background:#e8efe8;border:1px solid #486a4a55"></i>Disponível</span>
+          <span><i style="background:#f6ecd6;border:1px solid #a47d3866"></i>Pendente</span>
+          <span><i style="background:#a35d42"></i>Vendida</span>
+          <span><i style="background:#315b70"></i>Cortesia</span>
+          <span><i style="background:#dcdcdc;background-image:repeating-linear-gradient(45deg,#0000 0 3px,#0002 3px 6px)"></i>Bloqueada</span>
+          <span><i style="background:#486a4a"></i>Check-in</span>
+        </div>
+        <div class="callout dica">
+          <div class="c-title">💡 Regra do handoff</div>
+          Cada componente relevante documenta: finalidade, props, estados, responsividade, acessibilidade, componente de código esperado, tokens e exceções.
+        </div>
+      </section>
+
+      <!-- ============ HOME SANTA RITA ============ -->
+      <section class="bloco" data-bloco="home">
+        <div class="kicker">Portal público · tela 1</div>
+        <h1>Home — experiência Santa Rita</h1>
+        <p class="lead">A home é uma pequena subida da escadaria até a igreja. Começa embaixo; nunca diante da fachada. A igreja fica como ponto focal o tempo todo.</p>
+
+        <div class="device inst">
+          <div class="bar"><i></i><i></i><i></i><span class="url">institutoserrana.org</span></div>
+          <div class="screen">
+            <div class="nav"><span class="logo">Instituto Serrana</span><a>Instituto</a><a>Projetos</a><a>Bolerata</a><a>Transparência</a><a class="cta">Apoiar</a></div>
+            <div class="hero-sr">
+              <div class="church"></div>
+              <div class="stairs"></div>
+              <div class="k">Base da escadaria</div>
+              <h3>Cultura, memória e desenvolvimento no coração do Serro</h3>
+              <p>Role a página para subir a escadaria até a Igreja de Santa Rita.</p>
+            </div>
+            <div class="scrollrail">
+              <span class="on">Cidade</span><span>→ Comunidade</span><span>→ Memória</span><span>→ Cultura</span><span>→ Patrimônio</span><span>→ Instituto</span>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Mockup conceitual — o Penpot traz os 6 estados do storyboard com transição por scroll.</p>
+
+        <h2>Os 6 estados (storyboard)</h2>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Estado</th><th>Momento</th><th>Texto (rascunho)</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>Base da escadaria</td><td>"Instituto Serrana — Cultura, memória e desenvolvimento no coração do Serro."</td></tr>
+            <tr><td>1</td><td>Entrada</td><td>"Cada degrau guarda uma história."</td></tr>
+            <tr><td>2</td><td>Subida</td><td>"Memória • Cultura • Patrimônio • Comunidade"</td></tr>
+            <tr><td>3</td><td>Meio</td><td>Apresentação institucional curta</td></tr>
+            <tr><td>4</td><td>Últimos degraus</td><td>"Preservar o passado. Mobilizar o presente. Construir novos caminhos."</td></tr>
+            <tr><td>5</td><td>Chegada frontal</td><td>Identidade do Instituto + CTAs (Conhecer · Apoiar · Bolerata)</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="callout alerta">
+          <div class="c-title">⚠️ Acessibilidade (obrigatória)</div>
+          Com <code>prefers-reduced-motion</code>: imagem estática da escadaria + os mesmos textos + navegação convencional. A experiência não pode bloquear o scroll nem ser longa demais.
+        </div>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> A sequência <b>Memória · Cultura · Patrimônio · Comunidade</b> representa bem a atuação?</li>
+          <li><span class="pill pend">Pendente</span> Vocês têm <b>foto/vídeo</b> da escadaria e da igreja em alta resolução? Direitos de uso?</li>
+          <li><span class="pill pend">Pendente</span> Há <b>restrição</b> de uso da imagem da Igreja de Santa Rita (bem tombado / religioso)?</li>
+        </ul>
+      </section>
+
+      <!-- ============ INSTITUCIONAL ============ -->
+      <section class="bloco" data-bloco="institucional">
+        <div class="kicker">Portal público · institucional</div>
+        <h1>O Instituto · Áreas · Transparência</h1>
+        <p class="lead">Estrutura nossa, conteúdo do Instituto — tudo editável pela equipe via CMS, sem depender de programador.</p>
+
+        <div class="device inst">
+          <div class="bar"><i></i><i></i><i></i><span class="url">institutoserrana.org/instituto</span></div>
+          <div class="screen">
+            <div class="nav"><span class="logo">Instituto Serrana</span><a>Instituto</a><a>Projetos</a><a>Bolerata</a><a>Transparência</a><a class="cta">Apoiar</a></div>
+            <div class="sec">
+              <h4>Quem somos <span class="draft">rascunho de redação</span></h4>
+              <p class="muted">Organização civil sem fins lucrativos e apartidária, criada em 27 de setembro de 2001, dedicada ao patrimônio, à memória e ao desenvolvimento do Serro e sua região.</p>
+              <div class="cards">
+                <div class="card"><b>Missão</b><span class="draft">a validar</span> Promover qualidade de vida, fortalecer direitos e fomentar a economia criativa ligada à cultura e ao patrimônio do Serro.</div>
+                <div class="card"><b>Áreas de atuação</b> Patrimônio material e imaterial · memória · cultura · música · turismo sustentável · pesquisa e educação patrimonial.</div>
+                <div class="card"><b>Transparência</b> Estatuto · relatórios · atas · convênios · prestações de contas publicáveis.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Toda etiqueta "rascunho" existe para o texto não ser lido como oficial na reunião.</p>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> <b>Missão, visão e valores</b> — qual a redação oficial?</li>
+          <li><span class="pill pend">Pendente</span> Quem é a <b>diretoria atual</b>? Foto e bio curta?</li>
+          <li><span class="pill pend">Pendente</span> Confirmam <b>"Instituto Serrana Digital"</b> como nome da plataforma?</li>
+          <li><span class="pill pend">Pendente</span> Quais <b>documentos</b> podem ser públicos? Quem <b>aprova</b> publicação?</li>
+          <li><span class="pill pend">Pendente</span> Quem administra o <b>domínio</b>? Há interesse em migrar para <code>.org.br</code>? <span class="pill conf">Confirmado</span> só <code>institutoserrana.org</code> existe hoje.</li>
+        </ul>
+      </section>
+
+      <!-- ============ BOLERATA ============ -->
+      <section class="bloco" data-bloco="bolerata">
+        <div class="kicker">Portal público · evento</div>
+        <h1>Bolerata</h1>
+        <p class="lead">Cara de evento — mais escura, mais elegante — dentro do mesmo site. Primeiro grande caso de uso: se funciona para a Bolerata, funciona para qualquer evento futuro.</p>
+
+        <div class="device bol">
+          <div class="bar"><i></i><i></i><i></i><span class="url">institutoserrana.org/bolerata</span></div>
+          <div class="screen">
+            <div class="nav"><span class="logo">Bolerata</span><a>Temporada</a><a>Edições</a><a>Galeria</a><span class="cta">Reservar mesa</span></div>
+            <div class="hero-b">
+              <div class="k">Próxima edição · Temporada 2026</div>
+              <h3>Bolerata — Serro, uma noite de boleros no casario</h3>
+              <div class="meta"><span>◷ 21 nov, 20h</span><span>◺ Rua da Fundição, Serro-MG</span><span>♫ trio + convidados</span></div>
+              <span class="btn">Reservar / Comprar → Sympla</span>
+            </div>
+            <div class="season">
+              <div class="ed"><div class="thumb"></div><div class="body"><b>1ª edição</b><span>set · </span><span class="tag sold">esgotada</span></div></div>
+              <div class="ed"><div class="thumb"></div><div class="body"><b>2ª edição</b><span>out · </span><span class="tag">encerrada</span></div></div>
+              <div class="ed"><div class="thumb"></div><div class="body"><b>3ª edição</b><span>nov · </span><span class="tag open">aberta</span></div></div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">O botão de compra leva ao <b>fluxo oficial da Sympla</b>. A plataforma não processa pagamento nesta etapa.</p>
+
+        <h2>Página de uma edição contém</h2>
+        <div class="cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:12px">
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">data e horário</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">local + mapa</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">programação e artistas</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">acessibilidade + FAQ</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">patrocinadores</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">galeria da edição</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">CTA reserva/compra</div>
+          <div class="card" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px">mapa de mesas</div>
+        </div>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> A Bolerata tem <b>identidade visual</b> hoje (logo, cores, tipografia)?</li>
+          <li><span class="pill pend">Pendente</span> Quantas <b>edições</b> tem a temporada? Datas e locais já definidos?</li>
+          <li><span class="pill pend">Pendente</span> Há <b>material</b> (fotos/vídeos/arte) das edições anteriores?</li>
+          <li><span class="pill prop">Proposta</span> <b>Sympla é a fonte oficial de venda</b> na primeira etapa — confirmam?</li>
+        </ul>
+      </section>
+
+      <!-- ============ MAPAS DE MESA ============ -->
+      <section class="bloco" data-bloco="mapas">
+        <div class="kicker">Bolerata · o bloco mais importante da descoberta</div>
+        <h1>Os dois mapas de mesa</h1>
+        <p class="lead">O mapa ilustrado é para o público se situar. O mapa operacional é a ferramenta de quem opera. Os dois compartilham os mesmos <b>estados de mesa</b>.</p>
+
+        <div class="maps">
+          <div class="mapbox">
+            <div class="h">Mapa A — urbano ilustrado (público)</div>
+            <div class="mapa-a">
+              <div class="house" style="left:12%;top:14%"></div>
+              <div class="house" style="left:30%;top:10%"></div>
+              <div class="house" style="left:60%;top:12%"></div>
+              <div class="house" style="left:78%;top:16%"></div>
+              <div class="tree" style="left:22%;top:70%"></div>
+              <div class="tree" style="left:70%;top:74%"></div>
+              <div class="stage">palco</div>
+              <div class="street"></div>
+              <div class="tbl" style="left:20%;top:52%"></div>
+              <div class="tbl" style="left:33%;top:56%"></div>
+              <div class="tbl" style="left:47%;top:52%"></div>
+              <div class="tbl" style="left:60%;top:56%"></div>
+              <div class="tbl" style="left:73%;top:52%"></div>
+            </div>
+          </div>
+          <div class="mapbox">
+            <div class="h">Mapa B — planta operacional (equipe)</div>
+            <div class="mapa-b">
+              <div class="grid">
+                <div class="m disp">1</div><div class="m vend">2</div><div class="m vend">3</div><div class="m pend">4</div><div class="m cort">5</div><div class="m disp">6</div>
+                <div class="m vend">7</div><div class="m chk">8</div><div class="m disp">9</div><div class="m vend">10</div><div class="m bloq"></div><div class="m disp">12</div>
+                <div class="m cort">13</div><div class="m disp">14</div><div class="m vend">15</div><div class="m pend">16</div><div class="m disp">17</div><div class="m chk">18</div>
+              </div>
+              <div class="legend">
+                <span><i class="m disp" style="width:11px;height:11px"></i>Disponível</span>
+                <span><i class="m pend" style="width:11px;height:11px"></i>Pendente</span>
+                <span><i class="m vend" style="width:11px;height:11px"></i>Vendida</span>
+                <span><i class="m cort" style="width:11px;height:11px"></i>Cortesia</span>
+                <span><i class="m bloq" style="width:11px;height:11px"></i>Bloqueada</span>
+                <span><i class="m chk" style="width:11px;height:11px"></i>Check-in</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">O Mapa B tem painel lateral: ao clicar numa mesa, mostra comprador, pedido, status e histórico.</p>
+
+        <div class="callout alerta">
+          <div class="c-title">⚠️ Fonte de verdade</div>
+          Enquanto a venda estiver na Sympla, o <b>estado comercial oficial</b> de cada mesa vem de lá. O mapa da plataforma <b>reflete</b> esse estado; não o substitui nesta fase.
+        </div>
+
+        <h3>Perguntas (reservar 7 min)</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> Cada mesa é um <b>item único</b> na Sympla, ou são ingressos <b>por cadeira</b>?</li>
+          <li><span class="pill pend">Pendente</span> Existem <b>setores</b> (frente/fundo, coberto/descoberto, preços diferentes)?</li>
+          <li><span class="pill pend">Pendente</span> Capacidade por mesa <b>varia</b>? Cadeiras extras?</li>
+          <li><span class="pill pend">Pendente</span> Como são tratadas <b>cortesias</b> e mesas de <b>patrocinador</b>?</li>
+          <li><span class="pill pend">Pendente</span> Existem mesas <b>bloqueadas</b>? Quem decide?</li>
+          <li><span class="pill pend">Pendente</span> Existe <b>planta oficial</b> / medidas / foto aérea? O layout <b>muda por edição</b>?</li>
+          <li><span class="pill pend">Pendente</span> Como é o <b>check-in</b> na porta hoje? E <b>cancelamento / troca</b> de mesa?</li>
+        </ul>
+        <div class="callout alvo">
+          <div class="c-title">🎯 Decisão esperada</div>
+          Modelo real de venda de mesa documentado + decisão: no MVP o <b>Mapa B é operacional</b> (edita estados na plataforma) ou apenas <b>espelho</b> da Sympla?
+        </div>
+      </section>
+
+      <!-- ============ DASHBOARD ============ -->
+      <section class="bloco" data-bloco="dashboard">
+        <div class="kicker">Plataforma administrativa</div>
+        <h1>Dashboard</h1>
+        <p class="lead">"Abro e sei o que está acontecendo e o que precisa de atenção." Sem gráfico decorativo.</p>
+
+        <div class="device">
+          <div class="bar"><i></i><i></i><i></i><span class="url">app.institutoserrana.org</span></div>
+          <div class="screen app">
+            <div class="side"><b>Serrana</b><a class="on">Dashboard</a><a>Eventos</a><a>Sympla</a><a>Mesas</a><a>CRM</a><a>Atendimento</a><a>Financeiro</a><a>Projetos</a><a>Relatórios</a></div>
+            <div class="body">
+              <div class="kpis">
+                <div class="kpi"><div class="lbl">Próxima edição</div><div class="val">21 nov · 3ª</div></div>
+                <div class="kpi"><div class="lbl">Ocupação</div><div class="val g">72%</div></div>
+                <div class="kpi"><div class="lbl">Receita líquida</div><div class="val g">R$ 18,4k</div></div>
+                <div class="kpi"><div class="lbl">Resultado</div><div class="val r">−R$ 2,1k</div></div>
+              </div>
+              <div class="panelrow">
+                <div class="panel">
+                  <h5>Ocupação da 3ª edição</h5>
+                  <div class="bar"><i style="width:72%"></i></div>
+                  <div class="row"><span>Vendidas 26</span><span>Cortesia 4</span><span>Bloqueadas 2</span><span>Livres 8</span></div>
+                  <h5 style="margin-top:10px">Pedidos recentes (Sympla)</h5>
+                  <div class="row"><span>#SY-4471 · M. Souza</span><span>Mesa 15 · R$ 640</span></div>
+                  <div class="row"><span>#SY-4470 · A. Prado</span><span>Mesa 7 · R$ 640</span></div>
+                </div>
+                <div class="panel">
+                  <h5>Precisa de atenção</h5>
+                  <div class="row alert"><span>⚠ Sync Sympla</span><span>falhou há 2h</span></div>
+                  <div class="row"><span>Fila de atendimento</span><span>5 abertos</span></div>
+                  <div class="row"><span>Tarefas hoje</span><span>3</span></div>
+                  <div class="row"><span>Contas a pagar (7d)</span><span>R$ 4,3k</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Blocos de <code>DASH-001</code>: próxima edição, ocupação, receita bruta/líquida, despesas, resultado, pedidos, atendimento, falhas de integração, tarefas, atividade.</p>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> Quais <b>números</b> a diretoria acompanha hoje, e onde?</li>
+          <li><span class="pill pend">Pendente</span> Quem <b>usa</b> o dashboard — diretoria, produção, os dois?</li>
+          <li><span class="pill pend">Pendente</span> "Resultado" (receita − despesa) é visível para todos os perfis ou restrito?</li>
+        </ul>
+      </section>
+
+      <!-- ============ CRM ============ -->
+      <section class="bloco" data-bloco="crm">
+        <div class="kicker">Plataforma administrativa</div>
+        <h1>CRM e atendimento</h1>
+        <p class="lead">A mesma pessoa que compra mesa este ano pode ser patrocinadora no ano que vem. A plataforma trata como <b>uma pessoa só</b>, com histórico, em todos os canais.</p>
+
+        <div class="device">
+          <div class="bar"><i></i><i></i><i></i><span class="url">app.institutoserrana.org/crm</span></div>
+          <div class="screen app">
+            <div class="side"><b>Serrana</b><a>Dashboard</a><a>Eventos</a><a>Sympla</a><a>Mesas</a><a class="on">CRM</a><a>Atendimento</a><a>Financeiro</a><a>Projetos</a></div>
+            <div class="body">
+              <div class="kanban">
+                <div class="col"><h6>Novo</h6>
+                  <div class="kc"><b>Joana R.</b><br><small>Instagram · quer mesa p/ 6</small></div>
+                  <div class="kc"><b>Carlos M.</b><br><small>WhatsApp · dúvida data</small></div>
+                </div>
+                <div class="col"><h6>Link enviado</h6>
+                  <div class="kc"><b>Fernanda P.</b><br><span class="tag2">comprador</span><small>3ª edição</small></div>
+                </div>
+                <div class="col"><h6>Compra identificada</h6>
+                  <div class="kc"><b>M. Souza</b><br><span class="tag2">comprador</span><span class="tag2">doador</span><small>Mesa 15 · Sympla</small></div>
+                </div>
+                <div class="col"><h6>Pós-venda</h6>
+                  <div class="kc"><b>A. Prado</b><br><span class="tag2">patrocinador</span><small>Mesa 7 · enviar recibo</small></div>
+                </div>
+              </div>
+              <div class="panelrow" style="margin-top:10px">
+                <div class="panel">
+                  <h5>Ficha 360º — M. Souza</h5>
+                  <div class="row"><span>Papéis</span><span>comprador · doador</span></div>
+                  <div class="row"><span>Canais</span><span>WhatsApp · e-mail</span></div>
+                  <div class="row"><span>Compras</span><span>2 edições · R$ 1.280</span></div>
+                  <div class="row"><span>Consentimento</span><span>opt-in marketing (12/ago)</span></div>
+                </div>
+                <div class="panel">
+                  <h5>Atendimento · conversa aberta</h5>
+                  <div class="row"><span>💬 "Ainda tem mesa para dia 21?"</span></div>
+                  <div class="row"><span>🤖 Resumo IA</span><span>quer 1 mesa, 3ª edição</span></div>
+                  <div class="row"><span>Sugestão IA</span><span>"Sim! Restam 8. Link: …"</span></div>
+                  <div class="row alert"><span>revisão humana antes de enviar</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Pipeline de <code>CRM-001</code> · ficha de <code>CRM-003</code> · atendimento de <code>MSG-002</code>. IA assiste; humano decide (<code>AI-002</code>).</p>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> Quem <b>responde</b> WhatsApp / Instagram hoje? Quantas pessoas?</li>
+          <li><span class="pill pend">Pendente</span> Onde ficam os <b>contatos</b> hoje (celular, planilha, Sympla)?</li>
+          <li><span class="pill pend">Pendente</span> Quem pode <b>ver todos</b> os contatos / movimentar o CRM?</li>
+          <li><span class="pill pend">Pendente</span> Topam <b>IA sugerindo resposta</b> (com revisão humana)? Algum limite?</li>
+        </ul>
+      </section>
+
+      <!-- ============ FINANCEIRO ============ -->
+      <section class="bloco" data-bloco="financeiro">
+        <div class="kicker">Plataforma administrativa</div>
+        <h1>Financeiro e projetos</h1>
+        <p class="lead">Visão <b>gerencial</b> por centro de custo — <b>não substitui a contabilidade</b>. No fim da Bolerata, o resultado real dela sem montar planilha.</p>
+
+        <div class="device">
+          <div class="bar"><i></i><i></i><i></i><span class="url">app.institutoserrana.org/financeiro</span></div>
+          <div class="screen app">
+            <div class="side"><b>Serrana</b><a>Dashboard</a><a>Eventos</a><a>CRM</a><a>Atendimento</a><a class="on">Financeiro</a><a>Projetos</a><a>Relatórios</a></div>
+            <div class="body">
+              <div class="kpis">
+                <div class="kpi"><div class="lbl">Bolerata · receita</div><div class="val g">R$ 41,0k</div></div>
+                <div class="kpi"><div class="lbl">Bolerata · despesa</div><div class="val r">R$ 43,1k</div></div>
+                <div class="kpi"><div class="lbl">A receber (30d)</div><div class="val">R$ 6,2k</div></div>
+                <div class="kpi"><div class="lbl">A pagar (30d)</div><div class="val">R$ 9,4k</div></div>
+              </div>
+              <div class="panelrow">
+                <div class="panel">
+                  <h5>Por centro de custo</h5>
+                  <div class="row"><span>Bolerata</span><span>−R$ 2,1k</span></div>
+                  <div class="row"><span>Projeto Memória Viva</span><span>+R$ 4,0k</span></div>
+                  <div class="row"><span>Administração</span><span>−R$ 3,3k</span></div>
+                  <div class="row"><span>Patrocínios</span><span>+R$ 12,0k</span></div>
+                </div>
+                <div class="panel">
+                  <h5>Previsto × realizado — Bolerata</h5>
+                  <div class="bar"><i style="width:104%"></i></div>
+                  <div class="row"><span>Previsto</span><span>R$ 41,5k</span></div>
+                  <div class="row"><span>Realizado</span><span>R$ 43,1k</span></div>
+                  <div class="row alert"><span>estouro</span><span>+3,8%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Centros de custo de <code>FIN-001</code>. Cada lançamento amarra a evento/projeto/patrocínio. Anexo de comprovante por lançamento.</p>
+
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> Como as <b>despesas são vinculadas</b> a evento/projeto hoje?</li>
+          <li><span class="pill pend">Pendente</span> Existe <b>contador</b>? Ele terá acesso (perfil só leitura)?</li>
+          <li><span class="pill pend">Pendente</span> Vocês emitem <b>NFS-e</b>? Qual município/sistema? (não automatizamos sem validar)</li>
+          <li><span class="pill pend">Pendente</span> Existem <b>editais/convênios</b> com regras de prestação de contas?</li>
+        </ul>
+      </section>
+
+      <!-- ============ INTEGRAÇÕES ============ -->
+      <section class="bloco" data-bloco="integracoes">
+        <div class="kicker">Como explicar</div>
+        <h1>Integrações — enquadrar sem prometer</h1>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Integração</th><th>Como apresentar</th><th>O que NÃO dizer</th></tr></thead>
+          <tbody>
+            <tr><td><b>Sympla</b></td><td>Fonte oficial de venda e ingresso na 1ª etapa. A plataforma <b>lê</b> pedidos, participantes, valores, check-in e organiza no CRM/dashboard/financeiro.</td><td>Que a Sympla deixa criar pedido, segurar mesa ou fazer checkout pelo nosso site — a doc pública atual não garante.</td></tr>
+            <tr><td><b>WhatsApp</b></td><td>Caminho oficial = <b>Meta Cloud API</b>. A plataforma troca de provedor sem reescrever nada.</td><td>Apresentar Evolution / megaAPI como o plano — são alternativas com aceite de risco (modo não oficial, sujeito a bloqueio).</td></tr>
+            <tr><td><b>Instagram</b></td><td>DMs entram na mesma fila de atendimento do WhatsApp.</td><td>Recursos além de mensagens sem confirmar conta profissional + Meta Business.</td></tr>
+            <tr><td><b>n8n</b></td><td>O "encanamento" que liga a plataforma aos serviços e roda tarefas agendadas.</td><td>Que regras críticas de dinheiro/permissão ficam nele — não ficam.</td></tr>
+            <tr><td><b>IA</b></td><td>Resume conversa, classifica, sugere resposta, cuida de FAQ.</td><td>"IA autônoma" — nunca decide desconto, reembolso, preço ou nota fiscal.</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Perguntas</h3>
+        <ul>
+          <li><span class="pill pend">Pendente</span> Já têm <b>conta Meta Business</b> e <b>número de WhatsApp</b> comercial dedicado?</li>
+          <li><span class="pill pend">Pendente</span> A conta de <b>Instagram</b> é profissional e ligada a uma página?</li>
+          <li><span class="pill pend">Pendente</span> Existe <b>contrato Sympla</b> ativo? Quem tem acesso de produtor / token de API?</li>
+        </ul>
+      </section>
+
+      <!-- ============ DECISÕES ============ -->
+      <section class="bloco" data-bloco="decisoes">
+        <div class="kicker">O que precisa sair da reunião</div>
+        <h1>Decisões esperadas</h1>
+        <p class="lead">Meta: fechar o <b>Discovery Gate D1</b>. Uma pessoa dedicada à Matriz de validação durante toda a reunião.</p>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>#</th><th>Decisão</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Nome e posicionamento da plataforma</td></tr>
+            <tr><td>2</td><td>Conceito da Home Santa Rita (aprovado ou ajustes claros)</td></tr>
+            <tr><td>3</td><td>Tratamento visual separado da Bolerata</td></tr>
+            <tr><td>4</td><td>Escopo do MVP — o que entra e o que fica para depois</td></tr>
+            <tr><td>5</td><td>Papel do mapa de mesa no MVP (operacional × espelho)</td></tr>
+            <tr><td>6</td><td>Sympla como fonte de venda na 1ª etapa (confirmação do Instituto)</td></tr>
+            <tr><td>7</td><td>Caminho oficial do WhatsApp = Meta Cloud API</td></tr>
+            <tr><td>8</td><td>Canais de atendimento do MVP</td></tr>
+            <tr><td>9</td><td>Financeiro no MVP — sim/não e profundidade</td></tr>
+            <tr><td>10</td><td>Perfis de acesso (quem vê o quê) — versão inicial</td></tr>
+            <tr><td>11</td><td>Responsável por conteúdo institucional</td></tr>
+            <tr><td>12</td><td>Ponto de contato do Instituto para o projeto</td></tr>
+            <tr><td>13</td><td>Decisão sobre domínio (<code>.org</code> × <code>.org.br</code>)</td></tr>
+            <tr><td>14</td><td>Data do próximo gate</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout alvo">
+          <div class="c-title">🎯 Regra de promoção</div>
+          Toda <span class="pill prop">Proposta</span> que vira <span class="pill conf">Decisão</span> precisa: validação do responsável + data + atualização de <code>docs/discovery/02-decisions-assumptions.md</code> + ajuste do PRD se impactado.
+        </div>
+      </section>
+
+      <!-- ============ ACESSOS ============ -->
+      <section class="bloco" data-bloco="acessos">
+        <div class="kicker">Fecho</div>
+        <h1>Documentos e acessos a solicitar</h1>
+        <p class="lead">Entregar por escrito ao final, com um responsável e um prazo.</p>
+        <div class="checklist" data-checklist="docs">
+          <div class="cl-head"><b>Documentos</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Estatuto social atual</label>
+          <label><input type="checkbox"> CNPJ e cartão CNPJ</label>
+          <label><input type="checkbox"> Ata de eleição da diretoria atual</label>
+          <label><input type="checkbox"> Missão, visão e valores — texto oficial</label>
+          <label><input type="checkbox"> Relatórios de atividades / prestações de contas publicáveis</label>
+          <label><input type="checkbox"> Contrato ou plano da Sympla</label>
+          <label><input type="checkbox"> Planta / medidas / foto aérea do espaço da Bolerata</label>
+          <label><input type="checkbox"> Identidade visual da Bolerata (logo, cores, fontes)</label>
+          <label><input type="checkbox"> Fotos e vídeos: escadaria, igreja, edições anteriores</label>
+          <label><input type="checkbox"> Lista de projetos com descrição e status</label>
+          <label><input type="checkbox"> Modelo atual de controle financeiro (planilha exemplo)</label>
+        </div>
+        <div class="checklist" data-checklist="acessos">
+          <div class="cl-head"><b>Acessos</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Painel Sympla (produtor) e/ou token de API</label>
+          <label><input type="checkbox"> Conta Meta Business + WABA + número de WhatsApp</label>
+          <label><input type="checkbox"> Conta de Instagram (profissional) + página vinculada</label>
+          <label><input type="checkbox"> Acesso ao registro do domínio institutoserrana.org</label>
+          <label><input type="checkbox"> E-mail institucional para envio transacional</label>
+          <label><input type="checkbox"> Contato do contador e o que ele precisa enxergar</label>
+        </div>
+        <div class="checklist" data-checklist="pessoas">
+          <div class="cl-head"><b>Pessoas a definir</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Ponto de contato principal do Instituto</label>
+          <label><input type="checkbox"> Aprovador de conteúdo</label>
+          <label><input type="checkbox"> Responsável pelo financeiro</label>
+          <label><input type="checkbox"> Responsável pela operação da Bolerata</label>
+        </div>
+      </section>
+
+      <!-- ============ CHECKLIST PROTÓTIPO ============ -->
+      <section class="bloco" data-bloco="proto">
+        <div class="kicker">Antes da reunião</div>
+        <h1>Checklist do protótipo Penpot</h1>
+        <p class="lead">P0 obrigatório · P1 importante · P2 opcional. Estado salvo no navegador.</p>
+
+        <div class="checklist" data-checklist="p0">
+          <div class="cl-head"><b>P0 — obrigatório</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Home Santa Rita navegável — 6 estados + variante reduced-motion</label>
+          <label><input type="checkbox"> Página de edição da Bolerata com CTA levando ao "fluxo Sympla" (tela-conceito)</label>
+          <label><input type="checkbox"> Mapa A + Mapa B com os 6 estados de mesa e painel lateral de detalhe</label>
+          <label><input type="checkbox"> Dashboard administrativo — primeira dobra de DASH-001</label>
+          <label><input type="checkbox"> CRM — kanban de CRM-001 + ficha 360º de exemplo</label>
+          <label><input type="checkbox"> Atendimento omnichannel — fila + conversa + contato + "resumo por IA"</label>
+          <label><input type="checkbox"> Textos institucionais marcados como rascunho no protótipo</label>
+          <label><input type="checkbox"> Design System consistente nos dois temas (institucional + Bolerata)</label>
+        </div>
+        <div class="checklist" data-checklist="p1">
+          <div class="cl-head"><b>P1 — importante</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Página "O Instituto" e "Transparência" com conteúdo de exemplo realista</label>
+          <label><input type="checkbox"> Grade da temporada da Bolerata com 3–4 edições e estados</label>
+          <label><input type="checkbox"> Tela de Eventos (admin) — lista + página de um evento</label>
+          <label><input type="checkbox"> Financeiro — visão por centro de custo, previsto × realizado</label>
+          <label><input type="checkbox"> Mobile das telas-chave (Home, Bolerata, dashboard, atendimento, mapa)</label>
+          <label><input type="checkbox"> Página de projeto com orçamento, patrocinadores, prestação de contas</label>
+          <label><input type="checkbox"> Login administrativo (com menção a MFA)</label>
+        </div>
+        <div class="checklist" data-checklist="p2">
+          <div class="cl-head"><b>P2 — opcional</b><span><span class="cl-count"></span> · <button class="reset-btn">Resetar</button></span></div>
+          <label><input type="checkbox"> Galeria da Bolerata por edição</label>
+          <label><input type="checkbox"> Tela de Relatórios (lista de RPT-001)</label>
+          <label><input type="checkbox"> Pessoas / RH — equipe/prestadores vinculada a contatos</label>
+          <label><input type="checkbox"> Documentos com vínculo a projeto/evento/financeiro</label>
+          <label><input type="checkbox"> Página de Patrocínio (pública) com níveis de cota</label>
+          <label><input type="checkbox"> Animação de detalhe no hero (luz subindo a escadaria)</label>
+        </div>
+        <div class="callout dica">
+          <div class="c-title">💡 Próximo passo depois de aprovar o roteiro</div>
+          Preparar a estrutura Penpot (00 Foundations → 01 Design System → 02 Portal → 03 Bolerata → 04 Admin → 05 Mobile → 06 Prototypes), sempre <b>ler → listar → auditar → propor → só então editar</b>.
+        </div>
+      </section>
+
+    </div><!-- /content -->
+
+    <div class="footer-nav">
+      <button id="prevBtn" onclick="go(-1)">← Anterior</button>
+      <button id="nextBtn" onclick="go(1)">Próximo →</button>
+    </div>
+  </div><!-- /main -->
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">◐</button>
+
+<script>
+  const NAV = [
+    {group:"", items:[{t:"Início", ico:"🏠", target:"inicio"}]},
+    {group:"Condução", items:[
+      {t:"Roteiro da reunião", ico:"🗓️", target:"agenda"},
+      {t:"Storytelling de abertura", ico:"🎤", target:"abertura"},
+    ]},
+    {group:"Design", items:[
+      {t:"Design System", ico:"🎨", target:"design"},
+    ]},
+    {group:"Portal público", items:[
+      {t:"Home Santa Rita", ico:"⛪", target:"home"},
+      {t:"Institucional", ico:"📜", target:"institucional"},
+      {t:"Bolerata", ico:"🎭", target:"bolerata"},
+      {t:"Mapas de mesa", ico:"🗺️", target:"mapas"},
+    ]},
+    {group:"Plataforma administrativa", items:[
+      {t:"Dashboard", ico:"📊", target:"dashboard"},
+      {t:"CRM e atendimento", ico:"💬", target:"crm"},
+      {t:"Financeiro e projetos", ico:"💰", target:"financeiro"},
+      {t:"Integrações", ico:"🔌", target:"integracoes"},
+    ]},
+    {group:"O que sai da reunião", items:[
+      {t:"Decisões esperadas", ico:"✅", target:"decisoes"},
+      {t:"Documentos e acessos", ico:"📥", target:"acessos"},
+      {t:"Checklist do protótipo", ico:"🧪", target:"proto"},
+    ]},
+  ];
+
+  const flat = NAV.flatMap(g=>g.items.map(i=>i.target));
+  const navList = document.getElementById('navList');
+  NAV.forEach(g=>{
+    if(g.group){const h=document.createElement('div');h.className='nav-group';h.textContent=g.group;navList.appendChild(h);}
+    g.items.forEach(i=>{
+      const el=document.createElement('div');
+      el.className='nav-item';el.dataset.target=i.target;
+      el.innerHTML=`<span class="ico">${i.ico||"•"}</span><span>${i.t}</span>`;
+      el.onclick=()=>show(i.target);
+      navList.appendChild(el);
+    });
+  });
+
+  let idx = 0;
+  function show(target){
+    const i = flat.indexOf(target); if(i<0) return; idx=i;
+    document.querySelectorAll('.bloco').forEach(b=>b.classList.toggle('active', b.dataset.bloco===target));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.target===target));
+    const label = NAV.flatMap(g=>g.items).find(x=>x.target===target)?.t || '';
+    document.getElementById('topTitle').textContent = label;
+    document.getElementById('topProgress').textContent = `${idx+1} / ${flat.length}`;
+    document.getElementById('prevBtn').disabled = idx===0;
+    document.getElementById('nextBtn').disabled = idx===flat.length-1;
+    document.getElementById('content').scrollIntoView({block:'start'});
+    history.replaceState(null,'','#'+target);
+    if(innerWidth<=900) document.getElementById('sidebar').style.display='none';
+  }
+  function go(d){ const n=idx+d; if(n>=0&&n<flat.length) show(flat[n]); }
+
+  document.querySelectorAll('.prompt').forEach(p=>{
+    const btn=p.querySelector('.copy-btn'); const pre=p.querySelector('pre');
+    btn?.addEventListener('click',()=>{
+      navigator.clipboard.writeText(pre.innerText.trim()).then(()=>{
+        btn.textContent='Copiado ✓'; btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('copied')},1600);
+      });
+    });
+  });
+
+  const PKEY = 'isd-descoberta:';
+  document.querySelectorAll('.checklist').forEach(cl=>{
+    const id=cl.dataset.checklist;
+    const boxes=[...cl.querySelectorAll('input[type=checkbox]')];
+    const countEl=cl.querySelector('.cl-count');
+    let saved=[]; try{ saved=JSON.parse(localStorage.getItem(PKEY+id)||'[]'); }catch(e){}
+    boxes.forEach((b,i)=>{ b.checked=!!saved[i]; b.addEventListener('change',persist); });
+    cl.querySelector('.reset-btn').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);persist();});
+    function persist(){
+      try{ localStorage.setItem(PKEY+id, JSON.stringify(boxes.map(b=>b.checked))); }catch(e){}
+      countEl.textContent = boxes.filter(b=>b.checked).length + '/' + boxes.length;
+    }
+    persist();
+  });
+
+  function toggleTheme(){
+    const r=document.documentElement;
+    const cur=r.getAttribute('data-theme')|| (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    const next=cur==='dark'?'light':'dark';
+    r.setAttribute('data-theme',next); try{localStorage.setItem(PKEY+'theme',next);}catch(e){}
+  }
+  try{ const t=localStorage.getItem(PKEY+'theme'); if(t) document.documentElement.setAttribute('data-theme',t); }catch(e){}
+
+  function toggleMenu(){ const s=document.getElementById('sidebar'); s.style.display = getComputedStyle(s).display==='none'?'block':'none'; }
+
+  show(flat.includes(location.hash.slice(1)) ? location.hash.slice(1) : flat[0]);
+</script>
+</body>
+</html>

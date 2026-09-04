@@ -1,6 +1,6 @@
 ---
 description: Regras para Design System, Penpot e front-end
-globs: ["apps/**/*.tsx", "apps/**/*.ts", "apps/**/*.css", "packages/ui/**/*", "packages/design-tokens/**/*", "docs/03-design/**/*"]
+globs: ["apps/**/*.tsx", "apps/**/*.ts", "apps/**/*.css", "packages/ui/**/*", "packages/design-tokens/**/*", "docs/design/**/*"]
 alwaysApply: false
 ---
 - Reutilize tokens e componentes antes de criar novos.

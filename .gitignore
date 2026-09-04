@@ -20,3 +20,39 @@ Thumbs.db
 .tmp/
 tmp/
 *.log
+
+# Environment & Secrets (AIOX)
+.env.local
+.env.*.local
+
+# Dependencies (AIOX)
+node_modules
+
+# Build & Logs (AIOX)
+logs/
+
+# IDE & OS (AIOX)
+.idea/
+*.swp
+
+# AIOX Local (AIOX)
+.aiox-core/local/
+.claude/settings.local.json
+.aiox/install-log.txt
+
+# Build (extra)
+out/
+.turbo/
+.pnpm-store/
+.cache/
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Logs (extra)
+npm-debug.log*
+pnpm-debug.log*
+
+# Artefatos gerados
+docs/_generated/

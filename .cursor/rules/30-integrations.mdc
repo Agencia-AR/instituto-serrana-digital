@@ -1,6 +1,6 @@
 ---
 description: Regras para integrações Sympla, WhatsApp, Instagram e serviços externos
-globs: ["services/integrations/**/*", "docs/05-integrations/**/*", "apps/**/api/**/*"]
+globs: ["services/integrations/**/*", "docs/architecture/03-integrations.md", "apps/**/api/**/*"]
 alwaysApply: false
 ---
 - Todas as integrações devem usar adapters/ports para evitar acoplamento ao fornecedor.

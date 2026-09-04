@@ -6,24 +6,22 @@ No Cursor, na tela inicial, clique em **Open project** e selecione esta pasta:
 
 `instituto-serrana-digital`
 
-## 2. Inicializar Git
+## 2. Git
 
-Abra `Terminal → New Terminal` e execute:
+O repositório já existe e está conectado a
+`github.com/Agencia-AR/instituto-serrana-digital`. Antes de começar:
 
 ```bash
-git init
-git add .
-git commit -m "chore: bootstrap Instituto Serrana Digital workspace"
+git status
+git pull
 ```
-
-Se o Git ainda não estiver configurado com nome/e-mail, faça isso antes do commit.
 
 ## 3. Validar o contexto
 
 No Agent do Cursor ou no Claude Code, use:
 
 ```text
-Leia CLAUDE.md e docs/00-master/MASTER.md.
+Leia CLAUDE.md, README.md e docs/product/01-prd.md.
 Não altere nada.
 Resuma as decisões confirmadas, as hipóteses e o próximo lote de trabalho.
 ```
@@ -65,4 +63,5 @@ Não modifique nada.
 ## 6. Próximo lote
 
 Construir Foundations e o protótipo para a reunião, conforme:
-`docs/02-product/PROTOTYPE-SCOPE.md`.
+`docs/product/02-roadmap-mvp.md` (Fase 0B) e o checklist P0/P1/P2 em
+`docs/discovery/03-roteiro-reuniao-descoberta.md` §14.
