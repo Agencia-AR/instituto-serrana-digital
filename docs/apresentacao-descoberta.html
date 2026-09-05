@@ -139,12 +139,8 @@
   .inst .hero-sr{position:relative;min-height:340px;display:flex;flex-direction:column;justify-content:flex-end;
     padding:26px;color:#fff;background:
       linear-gradient(180deg,#20232100 0%,#202321cc 100%),
+      url('assets/img/igreja-santa-rita.jpg') center 30%/cover no-repeat,
       linear-gradient(0deg,#6d8a99,#cdb89a 70%,#e9ddc7)}
-  .inst .hero-sr .church{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:90px;height:120px;
-    background:linear-gradient(#f2ede2,#d8cbb2);clip-path:polygon(50% 0,68% 22%,68% 100%,32% 100%,32% 22%);opacity:.92}
-  .inst .hero-sr .church::after{content:"✚";position:absolute;top:-16px;left:50%;transform:translateX(-50%);color:#f2ede2;font-size:13px}
-  .inst .hero-sr .stairs{position:absolute;left:0;right:0;bottom:0;height:70%;background:
-     repeating-linear-gradient(180deg,#0000 0 16px,#0000000f 16px 18px);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
   .inst .hero-sr .k{position:relative;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.85}
   .inst .hero-sr h3{position:relative;font-family:var(--serif);font-size:30px;color:#fff;margin:6px 0;text-transform:none;letter-spacing:0}
   .inst .hero-sr p{position:relative;font-size:13px;max-width:60%;opacity:.9;margin:0}
@@ -163,7 +159,8 @@
   .bol{--b-black:#080808;--b-graphite:#171717;--b-gold:#a37c35;--b-lgold:#c6a35a;--b-ivory:#f4f0e7;
        background:var(--b-black);color:var(--b-ivory);font-family:var(--font)}
   .bol .nav{display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid #ffffff14}
-  .bol .nav .logo{font-family:var(--serif);letter-spacing:.14em;text-transform:uppercase;font-size:15px;color:var(--b-lgold)}
+  .bol .nav .logo{font-family:var(--serif);letter-spacing:.14em;text-transform:uppercase;font-size:15px;color:var(--b-lgold);display:flex;align-items:center}
+  .bol .nav .logo img{height:30px;width:auto;display:block;mix-blend-mode:screen}
   .bol .nav a{margin-left:auto;font-size:12px;color:#cdc4b3}
   .bol .nav .cta{margin-left:16px;border:1px solid var(--b-gold);color:var(--b-lgold);padding:6px 14px;border-radius:999px;font-size:12px}
   .bol .hero-b{padding:34px 24px;background:
@@ -189,11 +186,6 @@
   .mapbox .h{padding:8px 12px;font-size:12px;font-weight:700;background:var(--surface-2);border-bottom:1px solid var(--border)}
   .mapa-a{height:210px;position:relative;background:
      linear-gradient(180deg,#e7ddc7,#d8c9ab);}
-  .mapa-a .street{position:absolute;left:8%;right:8%;top:44%;height:22%;background:#cbb890;border-top:2px dashed #00000022;border-bottom:2px dashed #00000022}
-  .mapa-a .house{position:absolute;width:34px;height:26px;background:#b98c62;border:1px solid #00000022;border-radius:2px}
-  .mapa-a .tree{position:absolute;width:14px;height:14px;border-radius:50%;background:#6f8c5a}
-  .mapa-a .stage{position:absolute;left:46%;top:12%;width:44px;height:14px;background:#8a5a3c;border-radius:3px;color:#fff;font-size:8px;text-align:center;line-height:14px}
-  .mapa-a .tbl{position:absolute;width:12px;height:12px;border-radius:50%;background:#315b70}
   .mapa-b{height:210px;position:relative;background:var(--surface);padding:12px}
   .mapa-b .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
   .mapa-b .m{aspect-ratio:1;border-radius:6px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#0006;border:1px solid #0002}
@@ -231,6 +223,36 @@
   .kc{background:#fff;border:1px solid #0001;border-radius:7px;padding:7px;margin-bottom:6px;font-size:11px}
   .kc small{color:#8a8378}
   .tag2{display:inline-block;font-size:9px;padding:1px 6px;border-radius:999px;background:#315b7018;color:#315b70;margin-right:3px}
+
+  /* ---------- storytelling em modo apresentação ---------- */
+  .data-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+  .ds-item{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--surface);border-radius:10px;padding:10px 12px}
+  .ds-item b{display:block;font-family:var(--serif);font-size:21px;color:var(--accent)}
+  .ds-item span{font-size:11.5px;color:var(--muted)}
+  .prompt-stage pre{font-size:16.5px;line-height:1.72;font-family:var(--serif);letter-spacing:.002em}
+  .prompt-stage .p-head{font-size:13px}
+
+  /* ---------- casario/skyline + wordmark no hero da Bolerata ---------- */
+  .bol .hero-b{position:relative;overflow:hidden}
+  .bol .hero-b::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;opacity:.55;pointer-events:none;
+    background-image:repeating-linear-gradient(115deg,#0000 0 26px,#a37c3540 26px 27px),
+                      repeating-linear-gradient(65deg,#0000 0 26px,#a37c3540 26px 27px);
+    background-position:0 0;background-size:52px 26px}
+  .bol .hero-b .badge{position:absolute;right:14px;top:8px;width:120px;opacity:.92;mix-blend-mode:screen;pointer-events:none}
+
+  /* ---------- mapa A como foto real ---------- */
+  .mapa-a-photo{height:auto;background:none}
+  .mapa-a-photo img{display:block;width:100%;height:auto}
+
+  /* ---------- dashboard: painéis clicáveis ---------- */
+  .app .side a{cursor:pointer}
+  .app .side b{cursor:pointer}
+  .dboard-panel{display:none}
+  .dboard-panel.on{display:block}
+  .eventrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #0000000d;font-size:11.5px}
+  .introw{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #0000000d;font-size:11.5px}
+  .introw .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .dot.g{background:#486a4a}.dot.r{background:#a3423a}.dot.y{background:#a47d38}
 
   .theme-toggle{position:fixed;bottom:16px;right:16px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;width:40px;height:40px;cursor:pointer;font-size:16px;z-index:20}
 
@@ -339,10 +361,18 @@
 
       <!-- ============ ABERTURA / STORYTELLING ============ -->
       <section class="bloco" data-bloco="abertura">
-        <div class="kicker">Fala sugerida</div>
+        <div class="kicker">Fala sugerida · use como roteiro de apresentação</div>
         <h1>Storytelling de abertura</h1>
-        <p class="lead">2–3 minutos. Enquadra a reunião como proposta a validar, não entrega a aprovar.</p>
-        <div class="prompt">
+        <p class="lead">2–3 minutos. Enquadra a reunião como proposta a validar, não entrega a aprovar. Texto em corpo maior — pode ser lido direto da tela durante a apresentação.</p>
+
+        <div class="data-strip">
+          <div class="ds-item"><b>2001</b><span>fundação — 27 de setembro</span></div>
+          <div class="ds-item"><b>Serro-MG</b><span>patrimônio, memória e desenvolvimento regional</span></div>
+          <div class="ds-item"><b>4 pilares</b><span>memória · cultura · patrimônio · comunidade</span></div>
+          <div class="ds-item"><b>Bolerata</b><span>primeiro grande caso de uso da plataforma</span></div>
+        </div>
+
+        <div class="prompt prompt-stage">
           <div class="p-head"><span>Roteiro de abertura</span><button class="copy-btn">Copiar</button></div>
           <pre>O Instituto Serrana existe desde 2001 cuidando da memória, da cultura e do
 patrimônio do Serro. Hoje essa história está espalhada — um pouco no site, um
@@ -436,8 +466,6 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
           <div class="screen">
             <div class="nav"><span class="logo">Instituto Serrana</span><a>Instituto</a><a>Projetos</a><a>Bolerata</a><a>Transparência</a><a class="cta">Apoiar</a></div>
             <div class="hero-sr">
-              <div class="church"></div>
-              <div class="stairs"></div>
               <div class="k">Base da escadaria</div>
               <h3>Cultura, memória e desenvolvimento no coração do Serro</h3>
               <p>Role a página para subir a escadaria até a Igreja de Santa Rita.</p>
@@ -447,7 +475,7 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
             </div>
           </div>
         </div>
-        <p class="cap">Mockup conceitual — o Penpot traz os 6 estados do storyboard com transição por scroll.</p>
+        <p class="cap">Fundo com foto real da escadaria/igreja (<code>docs/assets/img/igreja-santa-rita.jpg</code>) — o Penpot traz os 6 estados do storyboard com transição por scroll.</p>
 
         <h2>Os 6 estados (storyboard)</h2>
         <div class="tbl-wrap"><table>
@@ -517,8 +545,9 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
         <div class="device bol">
           <div class="bar"><i></i><i></i><i></i><span class="url">institutoserrana.org/bolerata</span></div>
           <div class="screen">
-            <div class="nav"><span class="logo">Bolerata</span><a>Temporada</a><a>Edições</a><a>Galeria</a><span class="cta">Reservar mesa</span></div>
+            <div class="nav"><span class="logo"><img src="assets/img/bolerata-logo-nav.png" alt="Bolerata"></span><a>Temporada</a><a>Edições</a><a>Galeria</a><span class="cta">Reservar mesa</span></div>
             <div class="hero-b">
+              <img class="badge" src="assets/img/bolerata-logo-badge.png" alt="">
               <div class="k">Próxima edição · Temporada 2026</div>
               <h3>Bolerata — Serro, uma noite de boleros no casario</h3>
               <div class="meta"><span>◷ 21 nov, 20h</span><span>◺ Rua da Fundição, Serro-MG</span><span>♫ trio + convidados</span></div>
@@ -547,7 +576,7 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
 
         <h3>Perguntas</h3>
         <ul>
-          <li><span class="pill pend">Pendente</span> A Bolerata tem <b>identidade visual</b> hoje (logo, cores, tipografia)?</li>
+          <li><span class="pill conf">Confirmado</span> A Bolerata já tem <b>logo</b> (lamparina + clave de sol) — aplicado aqui no nav e no hero. <span class="pill pend">Pendente</span> paleta de cores e tipografia oficiais para o design system.</li>
           <li><span class="pill pend">Pendente</span> Quantas <b>edições</b> tem a temporada? Datas e locais já definidos?</li>
           <li><span class="pill pend">Pendente</span> Há <b>material</b> (fotos/vídeos/arte) das edições anteriores?</li>
           <li><span class="pill prop">Proposta</span> <b>Sympla é a fonte oficial de venda</b> na primeira etapa — confirmam?</li>
@@ -563,20 +592,8 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
         <div class="maps">
           <div class="mapbox">
             <div class="h">Mapa A — urbano ilustrado (público)</div>
-            <div class="mapa-a">
-              <div class="house" style="left:12%;top:14%"></div>
-              <div class="house" style="left:30%;top:10%"></div>
-              <div class="house" style="left:60%;top:12%"></div>
-              <div class="house" style="left:78%;top:16%"></div>
-              <div class="tree" style="left:22%;top:70%"></div>
-              <div class="tree" style="left:70%;top:74%"></div>
-              <div class="stage">palco</div>
-              <div class="street"></div>
-              <div class="tbl" style="left:20%;top:52%"></div>
-              <div class="tbl" style="left:33%;top:56%"></div>
-              <div class="tbl" style="left:47%;top:52%"></div>
-              <div class="tbl" style="left:60%;top:56%"></div>
-              <div class="tbl" style="left:73%;top:52%"></div>
+            <div class="mapa-a mapa-a-photo">
+              <img src="assets/img/planta-evento-bolerata.jpg" alt="Planta ilustrada do evento: palco no início da rua, mesas ao longo do trecho, barracas de alimentação e banheiros químicos do lado da sombra">
             </div>
           </div>
           <div class="mapbox">
@@ -598,7 +615,12 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
             </div>
           </div>
         </div>
-        <p class="cap">O Mapa B tem painel lateral: ao clicar numa mesa, mostra comprador, pedido, status e histórico.</p>
+        <p class="cap">Mapa A a partir da planta real enviada pelo Instituto — palco no início da rua, mesas ao longo do trecho, barracas de alimentação e banheiros químicos do lado da sombra. O Mapa B tem painel lateral: ao clicar numa mesa, mostra comprador, pedido, status e histórico.</p>
+
+        <div class="callout dica">
+          <div class="c-title">💡 Como os dois mapas se correlacionam</div>
+          O <b>Mapa A</b> é a foto/planta real do trecho da Bolerata — o público reconhece o lugar. O <b>Mapa B</b> é a mesma área traduzida em grade operacional: cada célula numerada corresponde a uma mesa das fileiras que aparecem na planta, na mesma ordem (do lado do palco para o lado das barracas). <span class="pill pend">Pendente</span> confirmar a numeração real de cada mesa para alinhar 1:1 com a foto.
+        </div>
 
         <div class="callout alerta">
           <div class="c-title">⚠️ Fonte de verdade</div>
@@ -627,38 +649,98 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
         <h1>Dashboard</h1>
         <p class="lead">"Abro e sei o que está acontecendo e o que precisa de atenção." Sem gráfico decorativo.</p>
 
-        <div class="device">
+        <div class="device" id="dashDevice">
           <div class="bar"><i></i><i></i><i></i><span class="url">app.institutoserrana.org</span></div>
           <div class="screen app">
-            <div class="side"><b>Serrana</b><a class="on">Dashboard</a><a>Eventos</a><a>Sympla</a><a>Mesas</a><a>CRM</a><a>Atendimento</a><a>Financeiro</a><a>Projetos</a><a>Relatórios</a></div>
+            <div class="side">
+              <b data-panel="dashboard">Serrana</b>
+              <a class="on" data-panel="dashboard">Dashboard</a>
+              <a data-panel="eventos">Eventos</a>
+              <a data-panel="sympla">Sympla</a>
+              <a data-panel="mesas">Mesas</a>
+              <a data-jump="crm">CRM</a>
+              <a data-jump="crm">Atendimento</a>
+              <a data-jump="financeiro">Financeiro</a>
+              <a data-jump="financeiro">Projetos</a>
+              <a data-panel="relatorios">Relatórios</a>
+              <a data-panel="integracoes">Integrações</a>
+            </div>
             <div class="body">
-              <div class="kpis">
-                <div class="kpi"><div class="lbl">Próxima edição</div><div class="val">21 nov · 3ª</div></div>
-                <div class="kpi"><div class="lbl">Ocupação</div><div class="val g">72%</div></div>
-                <div class="kpi"><div class="lbl">Receita líquida</div><div class="val g">R$ 18,4k</div></div>
-                <div class="kpi"><div class="lbl">Resultado</div><div class="val r">−R$ 2,1k</div></div>
-              </div>
-              <div class="panelrow">
-                <div class="panel">
-                  <h5>Ocupação da 3ª edição</h5>
-                  <div class="bar"><i style="width:72%"></i></div>
-                  <div class="row"><span>Vendidas 26</span><span>Cortesia 4</span><span>Bloqueadas 2</span><span>Livres 8</span></div>
-                  <h5 style="margin-top:10px">Pedidos recentes (Sympla)</h5>
-                  <div class="row"><span>#SY-4471 · M. Souza</span><span>Mesa 15 · R$ 640</span></div>
-                  <div class="row"><span>#SY-4470 · A. Prado</span><span>Mesa 7 · R$ 640</span></div>
+
+              <div class="dboard-panel on" data-panel-view="dashboard">
+                <div class="kpis">
+                  <div class="kpi"><div class="lbl">Próxima edição</div><div class="val">21 nov · 3ª</div></div>
+                  <div class="kpi"><div class="lbl">Ocupação</div><div class="val g">72%</div></div>
+                  <div class="kpi"><div class="lbl">Receita líquida</div><div class="val g">R$ 18,4k</div></div>
+                  <div class="kpi"><div class="lbl">Resultado</div><div class="val r">−R$ 2,1k</div></div>
                 </div>
-                <div class="panel">
-                  <h5>Precisa de atenção</h5>
-                  <div class="row alert"><span>⚠ Sync Sympla</span><span>falhou há 2h</span></div>
-                  <div class="row"><span>Fila de atendimento</span><span>5 abertos</span></div>
-                  <div class="row"><span>Tarefas hoje</span><span>3</span></div>
-                  <div class="row"><span>Contas a pagar (7d)</span><span>R$ 4,3k</span></div>
+                <div class="panelrow">
+                  <div class="panel">
+                    <h5>Ocupação da 3ª edição</h5>
+                    <div class="bar"><i style="width:72%"></i></div>
+                    <div class="row"><span>Vendidas 26</span><span>Cortesia 4</span><span>Bloqueadas 2</span><span>Livres 8</span></div>
+                    <h5 style="margin-top:10px">Pedidos recentes (Sympla)</h5>
+                    <div class="row"><span>#SY-4471 · M. Souza</span><span>Mesa 15 · R$ 640</span></div>
+                    <div class="row"><span>#SY-4470 · A. Prado</span><span>Mesa 7 · R$ 640</span></div>
+                  </div>
+                  <div class="panel">
+                    <h5>Precisa de atenção</h5>
+                    <div class="row alert"><span>⚠ Sync Sympla</span><span>falhou há 2h</span></div>
+                    <div class="row"><span>Fila de atendimento</span><span>5 abertos</span></div>
+                    <div class="row"><span>Tarefas hoje</span><span>3</span></div>
+                    <div class="row"><span>Contas a pagar (7d)</span><span>R$ 4,3k</span></div>
+                  </div>
                 </div>
               </div>
+
+              <div class="dboard-panel" data-panel-view="eventos">
+                <h5>Eventos e edições</h5>
+                <div class="eventrow"><span><b>3ª edição · Bolerata</b><br><small>21 nov · Rua da Fundição</small></span><span class="tag2" style="background:#486a4a18;color:#486a4a">aberta</span></div>
+                <div class="eventrow"><span><b>2ª edição · Bolerata</b><br><small>outubro</small></span><span class="tag2">encerrada</span></div>
+                <div class="eventrow"><span><b>1ª edição · Bolerata</b><br><small>setembro</small></span><span class="tag2" style="background:#a3423a18;color:#a3423a">esgotada</span></div>
+                <div class="eventrow"><span><b>Projeto Memória Viva</b><br><small>contínuo</small></span><span class="tag2">em andamento</span></div>
+                <p style="font-size:11px;color:#8a8378;margin-top:8px">Lista + página de um evento: bloco <b>Eventos (admin)</b> — protótipo P1.</p>
+              </div>
+
+              <div class="dboard-panel" data-panel-view="sympla">
+                <h5>Sincronização Sympla</h5>
+                <div class="row alert"><span>⚠ Última sincronização</span><span>falhou há 2h</span></div>
+                <div class="row"><span>Pedidos importados hoje</span><span>18</span></div>
+                <div class="row"><span>#SY-4471 · M. Souza</span><span>Mesa 15 · R$ 640</span></div>
+                <div class="row"><span>#SY-4470 · A. Prado</span><span>Mesa 7 · R$ 640</span></div>
+                <div class="row"><span>#SY-4468 · J. Ramos</span><span>Mesa 3 · R$ 640</span></div>
+                <p style="font-size:11px;color:#8a8378;margin-top:8px">A plataforma <b>lê</b> pedidos/participantes da Sympla — não processa pagamento nesta etapa.</p>
+              </div>
+
+              <div class="dboard-panel" data-panel-view="mesas">
+                <h5>Ocupação — 3ª edição</h5>
+                <div class="bar"><i style="width:72%"></i></div>
+                <div class="row"><span>Vendidas 26</span><span>Cortesia 4</span><span>Bloqueadas 2</span><span>Livres 8</span></div>
+                <p style="font-size:11px;color:#8a8378;margin-top:8px">Mapa completo com os 6 estados de mesa: bloco <b>Mapas de mesa</b> (Mapa A + Mapa B).</p>
+              </div>
+
+              <div class="dboard-panel" data-panel-view="relatorios">
+                <h5>Relatórios</h5>
+                <div class="row"><span>Ocupação por edição</span><span>PDF/CSV</span></div>
+                <div class="row"><span>Financeiro por centro de custo</span><span>PDF/CSV</span></div>
+                <div class="row"><span>Base de contatos (CRM)</span><span>CSV</span></div>
+                <p style="font-size:11px;color:#8a8378;margin-top:8px">Escopo de <code>RPT-001</code> — protótipo P2.</p>
+              </div>
+
+              <div class="dboard-panel" data-panel-view="integracoes">
+                <h5>Status das integrações</h5>
+                <div class="introw"><span class="dot g"></span><span><b>Sympla</b> — fonte oficial de venda · leitura de pedidos</span></div>
+                <div class="introw"><span class="dot y"></span><span><b>WhatsApp (Meta Cloud API)</b> — caminho oficial, a configurar</span></div>
+                <div class="introw"><span class="dot y"></span><span><b>Instagram</b> — DMs na fila de atendimento, a configurar</span></div>
+                <div class="introw"><span class="dot g"></span><span><b>n8n</b> — automações agendadas</span></div>
+                <div class="introw"><span class="dot y"></span><span><b>IA (assistente)</b> — sugestão de resposta, revisão humana</span></div>
+                <p style="font-size:11px;color:#8a8378;margin-top:8px">Detalhe de cada integração: bloco <b>Integrações</b>.</p>
+              </div>
+
             </div>
           </div>
         </div>
-        <p class="cap">Blocos de <code>DASH-001</code>: próxima edição, ocupação, receita bruta/líquida, despesas, resultado, pedidos, atendimento, falhas de integração, tarefas, atividade.</p>
+        <p class="cap">Clique nos itens do menu lateral do mockup — Dashboard, Eventos, Sympla, Mesas, Relatórios e Integrações trocam de painel aqui mesmo; CRM e Financeiro abrem a tela completa. Blocos de <code>DASH-001</code>: próxima edição, ocupação, receita bruta/líquida, despesas, resultado, pedidos, atendimento, falhas de integração, tarefas, atividade.</p>
 
         <h3>Perguntas</h3>
         <ul>
@@ -970,6 +1052,17 @@ O objetivo de hoje é a reação de vocês: o que faz sentido, o que muda, o que
     if(innerWidth<=900) document.getElementById('sidebar').style.display='none';
   }
   function go(d){ const n=idx+d; if(n>=0&&n<flat.length) show(flat[n]); }
+
+  document.querySelectorAll('#dashDevice [data-panel]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const target = el.dataset.panel;
+      document.querySelectorAll('#dashDevice [data-panel]').forEach(n=>n.classList.toggle('on', n.dataset.panel===target));
+      document.querySelectorAll('#dashDevice .dboard-panel').forEach(p=>p.classList.toggle('on', p.dataset.panelView===target));
+    });
+  });
+  document.querySelectorAll('#dashDevice [data-jump]').forEach(el=>{
+    el.addEventListener('click', ()=> show(el.dataset.jump));
+  });
 
   document.querySelectorAll('.prompt').forEach(p=>{
     const btn=p.querySelector('.copy-btn'); const pre=p.querySelector('pre');
